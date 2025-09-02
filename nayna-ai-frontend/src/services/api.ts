@@ -117,3 +117,8 @@ export async function saveMessagingSettings(payload: Record<string, unknown>): P
   await new Promise((r) => setTimeout(r, 400));
 }
 
+export async function saveRoomDetails(payload: Record<string, unknown>): Promise<void> {
+  // await api.post(`/instances/{id}/rooms`, payload);
+  await new Promise((r) => setTimeout(r, 400));
+}
+

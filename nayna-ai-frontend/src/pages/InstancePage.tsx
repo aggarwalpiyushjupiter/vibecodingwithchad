@@ -4,6 +4,7 @@ import { HostDetailsForm } from './forms/HostDetailsForm';
 import { VenueEventForm } from './forms/VenueEventForm';
 import { GuestsForm } from './forms/GuestsForm';
 import { ScheduleForm } from './forms/ScheduleForm';
+import { RoomDetailsForm } from './forms/RoomDetailsForm';
 import { listInstances, InstanceSummary } from '../services/api';
 
 export function InstancePage() {
@@ -37,6 +38,7 @@ export function InstancePage() {
           <NavLink to={"hosts"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Hosts</NavLink>
           <NavLink to={"venue-event"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Venue & Event</NavLink>
           <NavLink to={"guests"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Guests</NavLink>
+          <NavLink to={"rooms"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Room Details</NavLink>
           <NavLink to={"schedule"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Communication Calendar</NavLink>
         </nav>
       </div>
@@ -45,6 +47,7 @@ export function InstancePage() {
         <Route path="hosts" element={<HostDetailsForm />} />
         <Route path="venue-event" element={<VenueEventForm />} />
         <Route path="guests" element={<GuestsForm />} />
+        <Route path="rooms" element={<RoomDetailsForm />} />
         <Route path="schedule" element={<ScheduleForm />} />
         <Route index element={<HostDetailsForm />} />
       </Routes>
