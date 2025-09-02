@@ -28,7 +28,7 @@ export function ScheduleForm() {
 
   return (
     <form onSubmit={onSubmit} className="bg-white border rounded-lg p-4 max-w-3xl">
-      <h2 className="font-medium mb-4">Event Schedule</h2>
+      <h2 className="font-medium mb-4">Communication Calendar</h2>
       <div className="space-y-4">
         {items.map((it, idx) => (
           <div key={idx} className="grid grid-cols-1 sm:grid-cols-6 gap-3 items-end">

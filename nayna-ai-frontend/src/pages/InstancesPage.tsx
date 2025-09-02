@@ -77,10 +77,18 @@ export function InstancesPage() {
         <input value={groomFirstName} onChange={(e) => setGroomFirstName(e.target.value)} placeholder="Groom First Name" className="border rounded-md px-3 py-2 text-sm" />
         <input value={groomLastName} onChange={(e) => setGroomLastName(e.target.value)} placeholder="Groom Last Name" className="border rounded-md px-3 py-2 text-sm" />
         <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} className="border rounded-md px-3 py-2 text-sm" />
-        <div className="sm:col-span-5 flex gap-2">
+        <div className="sm:col-span-5">
           <button onClick={createInstance} className="bg-blue-600 text-white rounded-md px-4 py-2 text-sm">Create Instance</button>
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by name, event ID, date…" className="border rounded-md px-3 py-2 text-sm flex-1" />
         </div>
+      </div>
+
+      <div className="mb-4">
+        <input 
+          value={query} 
+          onChange={(e) => setQuery(e.target.value)} 
+          placeholder="Search by name, event ID, date…" 
+          className="w-full border rounded-md px-3 py-2 text-sm" 
+        />
       </div>
 
       <div className="overflow-x-auto bg-white border rounded-lg">

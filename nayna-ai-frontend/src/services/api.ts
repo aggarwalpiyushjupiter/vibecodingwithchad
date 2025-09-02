@@ -26,6 +26,16 @@ export async function loginWithEmail(payload: { email: string; password: string 
   // const { data } = await api.post('/auth/login', payload);
   // return data;
   await new Promise((r) => setTimeout(r, 400));
+  
+  // Check for specific credentials
+  if (payload.email === 'founders@nayna.ai' && payload.password === 'Nayna@101') {
+    return {
+      user: { id: 'user_001', email: payload.email, name: 'Nayna Support Executive' },
+      token: 'mock-token'
+    };
+  }
+  
+  // For demo purposes, allow any email/password combination
   return {
     user: { id: 'user_001', email: payload.email, name: 'Nayna User' },
     token: 'mock-token'
