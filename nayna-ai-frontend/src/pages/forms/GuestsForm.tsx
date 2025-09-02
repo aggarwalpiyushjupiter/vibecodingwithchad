@@ -6,6 +6,7 @@ type Guest = {
   name: string;
   email?: string;
   phone?: string;
+  countryCode?: string;
   side?: 'bride' | 'groom';
   relationship?: string;
   rsvp?: 'yes' | 'no' | 'maybe';
@@ -13,14 +14,14 @@ type Guest = {
 
 export function GuestsForm() {
   const { showToast } = useToast();
-  const [guests, setGuests] = useState<Guest[]>([{ name: '', email: '', phone: '', side: 'bride', relationship: '', rsvp: 'maybe' }]);
+  const [guests, setGuests] = useState<Guest[]>([{ name: '', email: '', phone: '', countryCode: '+1', side: 'bride', relationship: '', rsvp: 'maybe' }]);
   const [saving, setSaving] = useState(false);
 
   const updateGuest = (index: number, field: keyof Guest, value: string) => {
     setGuests((prev) => prev.map((g, i) => i === index ? { ...g, [field]: value } : g));
   };
 
-  const addGuest = () => setGuests((prev) => [...prev, { name: '', email: '', phone: '' }]);
+  const addGuest = () => setGuests((prev) => [...prev, { name: '', email: '', phone: '', countryCode: '+1' }]);
   const removeGuest = (index: number) => setGuests((prev) => prev.filter((_, i) => i !== index));
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -52,7 +53,21 @@ export function GuestsForm() {
             </div>
             <div>
               <label className="block text-sm">Phone</label>
-              <input value={guest.phone} onChange={(e) => updateGuest(idx, 'phone', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
+              <div className="flex gap-1">
+                <select value={guest.countryCode} onChange={(e) => updateGuest(idx, 'countryCode', e.target.value)} className="mt-1 border rounded-md px-2 py-2 text-sm w-20">
+                  <option value="+1">+1</option>
+                  <option value="+91">+91</option>
+                  <option value="+44">+44</option>
+                  <option value="+33">+33</option>
+                  <option value="+49">+49</option>
+                  <option value="+81">+81</option>
+                  <option value="+86">+86</option>
+                  <option value="+61">+61</option>
+                  <option value="+55">+55</option>
+                  <option value="+52">+52</option>
+                </select>
+                <input value={guest.phone} onChange={(e) => updateGuest(idx, 'phone', e.target.value)} className="mt-1 flex-1 border rounded-md px-3 py-2 text-sm" />
+              </div>
             </div>
             <div>
               <label className="block text-sm">Side</label>

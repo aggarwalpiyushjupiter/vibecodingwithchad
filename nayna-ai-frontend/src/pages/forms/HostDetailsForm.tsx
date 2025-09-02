@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { saveHostDetails } from '../../services/api';
 import { useToast } from '../../lib/ui/ToastContext';
 
-type Host = { name: string; email?: string; phone: string; side: 'bride' | 'groom'; relationship: string };
+type Host = { name: string; email?: string; phone: string; countryCode: string; side: 'bride' | 'groom'; relationship: string };
 
 export function HostDetailsForm() {
   const { showToast } = useToast();
   const [hosts, setHosts] = useState<Host[]>([
-    { name: '', email: '', phone: '', side: 'bride', relationship: '' }
+    { name: '', email: '', phone: '', countryCode: '+1', side: 'bride', relationship: '' }
   ]);
   const [saving, setSaving] = useState(false);
 
   const update = (i: number, field: keyof Host, value: string) => setHosts((arr) => arr.map((h, idx) => idx === i ? { ...h, [field]: value } : h));
-  const add = () => setHosts((arr) => [...arr, { name: '', email: '', phone: '', side: 'bride', relationship: '' }]);
+  const add = () => setHosts((arr) => [...arr, { name: '', email: '', phone: '', countryCode: '+1', side: 'bride', relationship: '' }]);
   const remove = (i: number) => setHosts((arr) => arr.filter((_, idx) => idx !== i));
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -50,7 +50,21 @@ export function HostDetailsForm() {
             </div>
             <div>
               <label className="block text-sm">Phone</label>
-              <input value={h.phone} onChange={(e) => update(idx, 'phone', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm" required />
+              <div className="flex gap-1">
+                <select value={h.countryCode} onChange={(e) => update(idx, 'countryCode', e.target.value)} className="mt-1 border rounded-md px-2 py-2 text-sm w-20">
+                  <option value="+1">+1</option>
+                  <option value="+91">+91</option>
+                  <option value="+44">+44</option>
+                  <option value="+33">+33</option>
+                  <option value="+49">+49</option>
+                  <option value="+81">+81</option>
+                  <option value="+86">+86</option>
+                  <option value="+61">+61</option>
+                  <option value="+55">+55</option>
+                  <option value="+52">+52</option>
+                </select>
+                <input value={h.phone} onChange={(e) => update(idx, 'phone', e.target.value)} className="mt-1 flex-1 border rounded-md px-3 py-2 text-sm" required />
+              </div>
             </div>
             <div>
               <label className="block text-sm">Side</label>

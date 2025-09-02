@@ -10,9 +10,10 @@ type Venue = {
   state: string;
   postalCode: string;
   eventName: string;
-  eventDate: string;
-  startTime: string;
-  endTime: string;
+  eventStartDate: string;
+  eventStartTime: string;
+  eventEndDate: string;
+  eventEndTime: string;
   description: string;
 };
 
@@ -30,9 +31,10 @@ export function VenueEventForm() {
       state: '',
       postalCode: '',
       eventName: '',
-      eventDate: '',
-      startTime: '',
-      endTime: '',
+      eventStartDate: '',
+      eventStartTime: '',
+      eventEndDate: '',
+      eventEndTime: '',
       description: ''
     };
     setVenues([...venues, newVenue]);
@@ -63,9 +65,10 @@ export function VenueEventForm() {
         await saveEventDetails({
           venueId: venue.id,
           eventName: venue.eventName,
-          eventDate: venue.eventDate,
-          startTime: venue.startTime,
-          endTime: venue.endTime,
+          eventStartDate: venue.eventStartDate,
+          eventStartTime: venue.eventStartTime,
+          eventEndDate: venue.eventEndDate,
+          eventEndTime: venue.eventEndTime,
           description: venue.description
         });
       }
@@ -110,97 +113,117 @@ export function VenueEventForm() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Venue Details */}
-            <div>
-              <label className="block text-sm">Venue Name</label>
-              <input 
-                value={venue.venueName} 
-                onChange={(e) => updateVenue(venue.id, 'venueName', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-                required 
-              />
-            </div>
-            <div>
-              <label className="block text-sm">Address Line 1</label>
-              <input 
-                value={venue.addressLine1} 
-                onChange={(e) => updateVenue(venue.id, 'addressLine1', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-                required 
-              />
-            </div>
-            <div>
-              <label className="block text-sm">City</label>
-              <input 
-                value={venue.city} 
-                onChange={(e) => updateVenue(venue.id, 'city', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-                required 
-              />
-            </div>
-            <div>
-              <label className="block text-sm">State</label>
-              <input 
-                value={venue.state} 
-                onChange={(e) => updateVenue(venue.id, 'state', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-              />
-            </div>
-            <div>
-              <label className="block text-sm">Postal Code</label>
-              <input 
-                value={venue.postalCode} 
-                onChange={(e) => updateVenue(venue.id, 'postalCode', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-              />
+          <div className="space-y-6">
+            {/* Venue Details Section */}
+            <div className="bg-white p-4 rounded-lg border">
+              <h4 className="font-medium text-gray-800 mb-4">Venue Information</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm">Venue Name</label>
+                  <input 
+                    value={venue.venueName} 
+                    onChange={(e) => updateVenue(venue.id, 'venueName', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                    required 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm">Address Line 1</label>
+                  <input 
+                    value={venue.addressLine1} 
+                    onChange={(e) => updateVenue(venue.id, 'addressLine1', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                    required 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm">City</label>
+                  <input 
+                    value={venue.city} 
+                    onChange={(e) => updateVenue(venue.id, 'city', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                    required 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm">State</label>
+                  <input 
+                    value={venue.state} 
+                    onChange={(e) => updateVenue(venue.id, 'state', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm">Postal Code</label>
+                  <input 
+                    value={venue.postalCode} 
+                    onChange={(e) => updateVenue(venue.id, 'postalCode', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Event Details */}
-            <div>
-              <label className="block text-sm">Event Name</label>
-              <input 
-                value={venue.eventName} 
-                onChange={(e) => updateVenue(venue.id, 'eventName', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-                required 
-              />
-            </div>
-            <div>
-              <label className="block text-sm">Event Date</label>
-              <input 
-                type="date" 
-                value={venue.eventDate} 
-                onChange={(e) => updateVenue(venue.id, 'eventDate', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-                required 
-              />
-            </div>
-            <div>
-              <label className="block text-sm">Start Time</label>
-              <input 
-                type="time" 
-                value={venue.startTime} 
-                onChange={(e) => updateVenue(venue.id, 'startTime', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-              />
-            </div>
-            <div>
-              <label className="block text-sm">End Time</label>
-              <input 
-                type="time" 
-                value={venue.endTime} 
-                onChange={(e) => updateVenue(venue.id, 'endTime', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
-              />
-            </div>
-            <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-sm">Event Description</label>
-              <textarea 
-                value={venue.description} 
-                onChange={(e) => updateVenue(venue.id, 'description', e.target.value)} 
-                className="mt-1 w-full border rounded-md px-3 py-2 text-sm h-20" 
-              />
+            {/* Event Details Section */}
+            <div className="bg-white p-4 rounded-lg border">
+              <h4 className="font-medium text-gray-800 mb-4">Event Information</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm">Event Name</label>
+                  <input 
+                    value={venue.eventName} 
+                    onChange={(e) => updateVenue(venue.id, 'eventName', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                    required 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm">Event Start Date</label>
+                  <input 
+                    type="date" 
+                    value={venue.eventStartDate} 
+                    onChange={(e) => updateVenue(venue.id, 'eventStartDate', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                    required 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm">Event Start Time</label>
+                  <input 
+                    type="time" 
+                    value={venue.eventStartTime} 
+                    onChange={(e) => updateVenue(venue.id, 'eventStartTime', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm">Event End Date</label>
+                  <input 
+                    type="date" 
+                    value={venue.eventEndDate} 
+                    onChange={(e) => updateVenue(venue.id, 'eventEndDate', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                    required 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm">Event End Time</label>
+                  <input 
+                    type="time" 
+                    value={venue.eventEndTime} 
+                    onChange={(e) => updateVenue(venue.id, 'eventEndTime', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                  />
+                </div>
+                <div className="sm:col-span-2 lg:col-span-3">
+                  <label className="block text-sm">Event Description</label>
+                  <textarea 
+                    value={venue.description} 
+                    onChange={(e) => updateVenue(venue.id, 'description', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm h-20" 
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
