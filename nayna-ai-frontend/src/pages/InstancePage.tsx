@@ -3,7 +3,6 @@ import { HostDetailsForm } from './forms/HostDetailsForm';
 import { VenueDetailsForm } from './forms/VenueDetailsForm';
 import { EventDetailsForm } from './forms/EventDetailsForm';
 import { GuestsForm } from './forms/GuestsForm';
-import { RSVPForm } from './forms/RSVPForm';
 import { ScheduleForm } from './forms/ScheduleForm';
 import { TemplatesForm } from './forms/TemplatesForm';
 import { StaffForm } from './forms/StaffForm';
@@ -24,7 +23,6 @@ export function InstancePage() {
           <NavLink to={"venue"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Venue</NavLink>
           <NavLink to={"event"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Event</NavLink>
           <NavLink to={"guests"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Guests</NavLink>
-          <NavLink to={"rsvp"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>RSVP</NavLink>
           <NavLink to={"schedule"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Schedule</NavLink>
           <NavLink to={"templates"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Templates</NavLink>
           <NavLink to={"staff"} className={({ isActive }) => isActive ? 'border-b-2 border-blue-600 py-2' : 'py-2 text-gray-600'}>Staff</NavLink>
@@ -37,7 +35,6 @@ export function InstancePage() {
         <Route path="venue" element={<VenueDetailsForm />} />
         <Route path="event" element={<EventDetailsForm />} />
         <Route path="guests" element={<GuestsForm />} />
-        <Route path="rsvp" element={<RSVPForm />} />
         <Route path="schedule" element={<ScheduleForm />} />
         <Route path="templates" element={<TemplatesForm />} />
         <Route path="staff" element={<StaffForm />} />

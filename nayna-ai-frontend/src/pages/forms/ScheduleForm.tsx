@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { saveSchedule } from '../../services/api';
 import { useToast } from '../../lib/ui/ToastContext';
 
-type Item = { time: string; title: string; description?: string };
+type Item = { datetime: string; title: string; description?: string };
 
 export function ScheduleForm() {
   const { showToast } = useToast();
-  const [items, setItems] = useState<Item[]>([{ time: '', title: '', description: '' }]);
+  const [items, setItems] = useState<Item[]>([{ datetime: '', title: '', description: '' }]);
   const [saving, setSaving] = useState(false);
 
   const update = (i: number, field: keyof Item, value: string) => setItems((arr) => arr.map((x, idx) => idx === i ? { ...x, [field]: value } : x));
-  const add = () => setItems((arr) => [...arr, { time: '', title: '', description: '' }]);
+  const add = () => setItems((arr) => [...arr, { datetime: '', title: '', description: '' }]);
   const remove = (i: number) => setItems((arr) => arr.filter((_, idx) => idx !== i));
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -33,8 +33,8 @@ export function ScheduleForm() {
         {items.map((it, idx) => (
           <div key={idx} className="grid grid-cols-1 sm:grid-cols-6 gap-3 items-end">
             <div className="sm:col-span-2">
-              <label className="block text-sm">Time</label>
-              <input value={it.time} onChange={(e) => update(idx, 'time', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm" placeholder="10:00" />
+              <label className="block text-sm">Date & Time</label>
+              <input type="datetime-local" value={it.datetime} onChange={(e) => update(idx, 'datetime', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
             </div>
             <div className="sm:col-span-2">
               <label className="block text-sm">Title</label>

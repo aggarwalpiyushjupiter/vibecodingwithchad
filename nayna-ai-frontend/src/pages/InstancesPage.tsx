@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listInstances, InstanceSummary } from '../services/api';
 import { useToast } from '../lib/ui/ToastContext';
@@ -7,7 +7,12 @@ export function InstancesPage() {
   const { showToast } = useToast();
   const [instances, setInstances] = useState<InstanceSummary[]>([]);
   const [loading, setLoading] = useState(true);
-  const [name, setName] = useState('');
+  const [brideFirstName, setBrideFirstName] = useState('');
+  const [brideLastName, setBrideLastName] = useState('');
+  const [groomFirstName, setGroomFirstName] = useState('');
+  const [groomLastName, setGroomLastName] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -25,32 +30,85 @@ export function InstancesPage() {
   }
 
   const createInstance = async () => {
-    // TODO: replace with API
-    if (!name.trim()) {
-      showToast({ variant: 'error', message: 'Enter a name' });
+    if (!brideFirstName.trim() || !groomFirstName.trim() || !eventDate) {
+      showToast({ variant: 'error', message: 'Bride, Groom and Event Date are required' });
       return;
     }
-    const newInst: InstanceSummary = { instanceId: `inst_${Date.now()}`, instanceName: name, createdAt: new Date().toISOString() };
+    const year = new Date(eventDate).getFullYear();
+    const serial = String(instances.length + 1).padStart(3, '0');
+    const eventId = `${brideFirstName.toLowerCase()}_${groomFirstName.toLowerCase()}_${year}_${serial}`;
+    const instanceName = `${brideFirstName} & ${groomFirstName} Wedding`;
+    const newInst: InstanceSummary = {
+      instanceId: `inst_${Date.now()}`,
+      eventId,
+      brideFirstName,
+      brideLastName,
+      groomFirstName,
+      groomLastName,
+      eventDate,
+      instanceName,
+      createdAt: new Date().toISOString()
+    };
     setInstances((arr) => [newInst, ...arr]);
-    setName('');
+    setBrideFirstName(''); setBrideLastName(''); setGroomFirstName(''); setGroomLastName(''); setEventDate('');
     showToast({ variant: 'success', message: 'Instance created' });
   };
+
+  const filtered = useMemo(() => {
+    if (!query.trim()) return instances;
+    const q = query.toLowerCase();
+    return instances.filter((i) =>
+      i.instanceName.toLowerCase().includes(q) ||
+      i.eventId.toLowerCase().includes(q) ||
+      i.brideFirstName.toLowerCase().includes(q) ||
+      i.groomFirstName.toLowerCase().includes(q) ||
+      i.eventDate.includes(q)
+    );
+  }, [instances, query]);
 
   return (
     <div>
       <h1 className="text-lg font-semibold mb-4">Your Instances</h1>
-      <div className="bg-white border rounded-lg p-4 mb-4 flex gap-2">
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="New instance name" className="border rounded-md px-3 py-2 text-sm flex-1" />
-        <button onClick={createInstance} className="bg-blue-600 text-white rounded-md px-4 py-2 text-sm">Create</button>
+      <div className="bg-white border rounded-lg p-4 mb-4 grid grid-cols-1 sm:grid-cols-5 gap-2">
+        <input value={brideFirstName} onChange={(e) => setBrideFirstName(e.target.value)} placeholder="Bride First Name" className="border rounded-md px-3 py-2 text-sm" />
+        <input value={brideLastName} onChange={(e) => setBrideLastName(e.target.value)} placeholder="Bride Last Name" className="border rounded-md px-3 py-2 text-sm" />
+        <input value={groomFirstName} onChange={(e) => setGroomFirstName(e.target.value)} placeholder="Groom First Name" className="border rounded-md px-3 py-2 text-sm" />
+        <input value={groomLastName} onChange={(e) => setGroomLastName(e.target.value)} placeholder="Groom Last Name" className="border rounded-md px-3 py-2 text-sm" />
+        <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} className="border rounded-md px-3 py-2 text-sm" />
+        <div className="sm:col-span-5 flex gap-2">
+          <button onClick={createInstance} className="bg-blue-600 text-white rounded-md px-4 py-2 text-sm">Create Instance</button>
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by name, event ID, date…" className="border rounded-md px-3 py-2 text-sm flex-1" />
+        </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {instances.map((inst) => (
-          <Link key={inst.instanceId} to={`/instances/${inst.instanceId}`} className="border rounded-lg p-4 bg-white hover:shadow">
-            <div className="font-medium">{inst.instanceName}</div>
-            <div className="text-xs text-gray-500">ID: {inst.instanceId}</div>
-            <div className="text-xs text-gray-500">Created: {new Date(inst.createdAt).toLocaleString()}</div>
-          </Link>
-        ))}
+
+      <div className="overflow-x-auto bg-white border rounded-lg">
+        <table className="min-w-full text-sm">
+          <thead className="bg-gray-50 text-gray-600">
+            <tr>
+              <th className="text-left px-4 py-2">Event</th>
+              <th className="text-left px-4 py-2">Event ID</th>
+              <th className="text-left px-4 py-2">Date</th>
+              <th className="text-left px-4 py-2">Days to go</th>
+              <th className="text-left px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((inst) => {
+              const days = Math.ceil((new Date(inst.eventDate).getTime() - Date.now()) / 86400000);
+              return (
+                <tr key={inst.instanceId} className="border-t">
+                  <td className="px-4 py-2">{inst.instanceName}</td>
+                  <td className="px-4 py-2 text-gray-600">{inst.eventId}</td>
+                  <td className="px-4 py-2">{inst.eventDate}</td>
+                  <td className="px-4 py-2">{days >= 0 ? days : 0}</td>
+                  <td className="px-4 py-2">
+                    <Link to={`/instances/${inst.instanceId}`} className="text-blue-600 hover:underline">Open</Link>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -6,11 +6,14 @@ type Guest = {
   name: string;
   email?: string;
   phone?: string;
+  side?: 'bride' | 'groom';
+  relationship?: string;
+  rsvp?: 'yes' | 'no' | 'maybe';
 };
 
 export function GuestsForm() {
   const { showToast } = useToast();
-  const [guests, setGuests] = useState<Guest[]>([{ name: '', email: '', phone: '' }]);
+  const [guests, setGuests] = useState<Guest[]>([{ name: '', email: '', phone: '', side: 'bride', relationship: '', rsvp: 'maybe' }]);
   const [saving, setSaving] = useState(false);
 
   const updateGuest = (index: number, field: keyof Guest, value: string) => {
@@ -38,7 +41,7 @@ export function GuestsForm() {
       <h2 className="font-medium mb-4">Guests</h2>
       <div className="space-y-4">
         {guests.map((guest, idx) => (
-          <div key={idx} className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+          <div key={idx} className="grid grid-cols-1 sm:grid-cols-7 gap-3 items-end">
             <div>
               <label className="block text-sm">Name</label>
               <input value={guest.name} onChange={(e) => updateGuest(idx, 'name', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm" required />
@@ -50,6 +53,25 @@ export function GuestsForm() {
             <div>
               <label className="block text-sm">Phone</label>
               <input value={guest.phone} onChange={(e) => updateGuest(idx, 'phone', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label className="block text-sm">Side</label>
+              <select value={guest.side} onChange={(e) => updateGuest(idx, 'side', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm">
+                <option value="bride">Bride</option>
+                <option value="groom">Groom</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm">Relationship</label>
+              <input value={guest.relationship} onChange={(e) => updateGuest(idx, 'relationship', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label className="block text-sm">RSVP</label>
+              <select value={guest.rsvp} onChange={(e) => updateGuest(idx, 'rsvp', e.target.value)} className="mt-1 w-full border rounded-md px-3 py-2 text-sm">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="maybe">Maybe</option>
+              </select>
             </div>
             <div className="flex gap-2">
               <button type="button" onClick={addGuest} className="border rounded-md px-3 py-2 text-sm">Add</button>

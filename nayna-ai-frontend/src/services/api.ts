@@ -2,7 +2,13 @@ import axios from 'axios';
 
 export type InstanceSummary = {
   instanceId: string;
-  instanceName: string;
+  eventId: string;
+  brideFirstName: string;
+  brideLastName?: string;
+  groomFirstName: string;
+  groomLastName?: string;
+  eventDate: string; // ISO date (yyyy-mm-dd)
+  instanceName: string; // e.g., "Bride & Groom Wedding"
   createdAt: string;
 };
 
@@ -40,8 +46,24 @@ export async function listInstances(): Promise<InstanceSummary[]> {
   // const { data } = await api.get('/instances');
   // return data;
   return [
-    { instanceId: 'inst_001', instanceName: 'Wedding - Goa', createdAt: new Date().toISOString() },
-    { instanceId: 'inst_002', instanceName: 'Conference - NYC', createdAt: new Date().toISOString() }
+    {
+      instanceId: 'inst_001',
+      eventId: 'ananya_rahul_2025_001',
+      brideFirstName: 'Ananya',
+      groomFirstName: 'Rahul',
+      eventDate: new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10),
+      instanceName: 'Ananya & Rahul Wedding',
+      createdAt: new Date().toISOString()
+    },
+    {
+      instanceId: 'inst_002',
+      eventId: 'meera_aarav_2025_002',
+      brideFirstName: 'Meera',
+      groomFirstName: 'Aarav',
+      eventDate: new Date(Date.now() + 45 * 86400000).toISOString().slice(0, 10),
+      instanceName: 'Meera & Aarav Wedding',
+      createdAt: new Date().toISOString()
+    }
   ];
 }
 
