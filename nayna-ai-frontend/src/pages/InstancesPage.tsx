@@ -25,6 +25,18 @@ export function InstancesPage() {
     })();
   }, []);
 
+  const filtered = useMemo(() => {
+    if (!query.trim()) return instances;
+    const q = query.toLowerCase();
+    return instances.filter((i) =>
+      i.instanceName.toLowerCase().includes(q) ||
+      i.eventId.toLowerCase().includes(q) ||
+      i.brideFirstName.toLowerCase().includes(q) ||
+      i.groomFirstName.toLowerCase().includes(q) ||
+      i.eventDate.includes(q)
+    );
+  }, [instances, query]);
+
   if (loading) {
     return <div>Loading instances…</div>;
   }
@@ -54,17 +66,7 @@ export function InstancesPage() {
     showToast({ variant: 'success', message: 'Instance created' });
   };
 
-  const filtered = useMemo(() => {
-    if (!query.trim()) return instances;
-    const q = query.toLowerCase();
-    return instances.filter((i) =>
-      i.instanceName.toLowerCase().includes(q) ||
-      i.eventId.toLowerCase().includes(q) ||
-      i.brideFirstName.toLowerCase().includes(q) ||
-      i.groomFirstName.toLowerCase().includes(q) ||
-      i.eventDate.includes(q)
-    );
-  }, [instances, query]);
+  
 
   return (
     <div>
