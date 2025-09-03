@@ -9,6 +9,7 @@ type Venue = {
   city: string;
   state: string;
   postalCode: string;
+  googleMapsLink: string;
   eventName: string;
   eventStartDate: string;
   eventStartTime: string;
@@ -30,6 +31,7 @@ export function VenueEventForm() {
       city: '',
       state: '',
       postalCode: '',
+      googleMapsLink: '',
       eventName: '',
       eventStartDate: '',
       eventStartTime: '',
@@ -159,6 +161,15 @@ export function VenueEventForm() {
                     value={venue.postalCode} 
                     onChange={(e) => updateVenue(venue.id, 'postalCode', e.target.value)} 
                     className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                  />
+                </div>
+                <div className="sm:col-span-2 lg:col-span-3">
+                  <label className="block text-sm">Google Maps Link</label>
+                  <input 
+                    value={venue.googleMapsLink} 
+                    onChange={(e) => updateVenue(venue.id, 'googleMapsLink', e.target.value)} 
+                    className="mt-1 w-full border rounded-md px-3 py-2 text-sm" 
+                    placeholder="https://maps.google.com/..."
                   />
                 </div>
               </div>
